@@ -1,0 +1,386 @@
+name: Build IPA
+
+on:
+  push:
+    branches: [ main ]
+  workflow_dispatch:
+
+jobs:
+  build:
+    runs-on: macos-latest
+    
+    steps:
+    - name: Checkout
+      uses: actions/checkout@v3
+      
+    - name: Set up Swift
+      run: swift --version
+      
+    - name: Create Project Structure
+      run: |
+        mkdir -p IPTVApp/IPTVApp
+        cp Main.swift IPTVApp/IPTVApp/
+        cp ChannelListController.swift IPTVApp/IPTVApp/
+        
+        # Создаем Info.plist
+        cat > IPTVApp/IPTVApp/Info.plist << 'EOF'
+        <?xml version="1.0" encoding="UTF-8"?>
+        <!DOCTYPE plist PUBLIC "-//Apple//DTD PLIST 1.0//EN" "http://www.apple.com/DTDs/PropertyList-1.0.dtd">
+        <plist version="1.0">
+        <dict>
+            <key>CFBundleDevelopmentRegion</key>
+            <string>en</string>
+            <key>CFBundleExecutable</key>
+            <string>$(EXECUTABLE_NAME)</string>
+            <key>CFBundleIdentifier</key>
+            <string>$(PRODUCT_BUNDLE_IDENTIFIER)</string>
+            <key>CFBundleInfoDictionaryVersion</key>
+            <string>6.0</string>
+            <key>CFBundleName</key>
+            <string>$(PRODUCT_NAME)</string>
+            <key>CFBundlePackageType</key>
+            <string>APPL</string>
+            <key>CFBundleShortVersionString</key>
+            <string>1.0</string>
+            <key>CFBundleSignature</key>
+            <string>????</string>
+            <key>CFBundleVersion</key>
+            <string>1</string>
+            <key>LSRequiresIPhoneOS</key>
+            <true/>
+            <key>NSAppTransportSecurity</key>
+            <dict>
+                <key>NSAllowsArbitraryLoads</key>
+                <true/>
+            </dict>
+            <key>UILaunchStoryboardName</key>
+            <string></string>
+            <key>UIRequiredDeviceCapabilities</key>
+            <array>
+                <string>armv7</string>
+            </array>
+            <key>UISupportedInterfaceOrientations</key>
+            <array>
+                <string>UIInterfaceOrientationPortrait</string>
+                <string>UIInterfaceOrientationLandscapeLeft</string>
+                <string>UIInterfaceOrientationLandscapeRight</string>
+            </array>
+        </dict>
+        </plist>
+        EOF
+
+    - name: Create Xcode Project File
+      run: |
+        cat > IPTVApp.xcodeproj/project.pbxproj << 'EOF'
+        // !$*UTF8*$!
+        {
+            archiveVersion = 1;
+            classes = {
+            };
+            objects = {
+                
+                /* Begin PBXBuildFile section */
+                ABCDEF1234567890ABCDEF12 /* Main.swift in Sources */ = {isa = PBXBuildFile; fileRef = ABCDEF1234567890ABCDEF13 /* Main.swift */; };
+                ABCDEF1234567890ABCDEF14 /* ChannelListController.swift in Sources */ = {isa = PBXBuildFile; fileRef = ABCDEF1234567890ABCDEF15 /* ChannelListController.swift */; };
+                /* End PBXBuildFile section */
+                
+                /* Begin PBXFileReference section */
+                ABCDEF1234567890ABCDEF16 /* IPTVApp.app */ = {isa = PBXFileReference; explicitFileType = wrapper.application; includeInIndex = 0; path = IPTVApp.app; sourceTree = "<group>"; };
+                ABCDEF1234567890ABCDEF13 /* Main.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Main.swift; sourceTree = "<group>"; };
+                ABCDEF1234567890ABCDEF15 /* ChannelListController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ChannelListController.swift; sourceTree = "<group>"; };
+                ABCDEF1234567890ABCDEF17 /* Info.plist */ = {isa = PBXFileReference; lastKnownFileType = text.plist.xml; path = Info.plist; sourceTree = "<group>"; };
+                /* End PBXFileReference section */
+                
+                /* Begin PBXGroup section */
+                ABCDEF1234567890ABCDEF18 /* Root */ = {
+                    isa = PBXGroup;
+                    children = (
+                        ABCDEF1234567890ABCDEF19 /* IPTVApp */,
+                        ABCDEF1234567890ABCDEF20 /* Products */,
+                    );
+                    sourceTree = "<group>";
+                };
+                ABCDEF1234567890ABCDEF19 /* IPTVApp */ = {
+                    isa = PBXGroup;
+                    children = (
+                        ABCDEF1234567890ABCDEF13 /* Main.swift */,
+                        ABCDEF1234567890ABCDEF15 /* ChannelListController.swift */,
+                        ABCDEF1234567890ABCDEF17 /* Info.plist */,
+                    );
+                    path = IPTVApp;
+                    sourceTree = "<group>";
+                };
+                ABCDEF1234567890ABCDEF20 /* Products */ = {
+                    isa = PBXGroup;
+                    children = (
+                        ABCDEF1234567890ABCDEF16 /* IPTVApp.app */,
+                    );
+                    name = Products;
+                    sourceTree = "<group>";
+                };
+                /* End PBXGroup section */
+                
+                /* Begin PBXNativeTarget section */
+                ABCDEF1234567890ABCDEF21 /* IPTVApp */ = {
+                    isa = PBXNativeTarget;
+                    buildConfigurationList = ABCDEF1234567890ABCDEF22 /* Build configuration list for PBXNativeTarget "IPTVApp" */;
+                    buildPhases = (
+                        ABCDEF1234567890ABCDEF23 /* Sources */,
+                        ABCDEF1234567890ABCDEF24 /* Frameworks */,
+                        ABCDEF1234567890ABCDEF25 /* Resources */,
+                    );
+                    buildRules = (
+                    );
+                    dependencies = (
+                    );
+                    name = IPTVApp;
+                    productReference = ABCDEF1234567890ABCDEF16 /* IPTVApp.app */;
+                    productType = "com.apple.product-type.application";
+                };
+                /* End PBXNativeTarget section */
+                
+                /* Begin PBXProject section */
+                ABCDEF1234567890ABCDEF26 /* Project object */ = {
+                    isa = PBXProject;
+                    buildConfigurationList = ABCDEF1234567890ABCDEF27 /* Build configuration list for PBXProject "IPTVApp" */;
+                    compatibilityVersion = "Xcode 9.0";
+                    developmentRegion = en;
+                    hasScannedForEncodings = 0;
+                    knownRegions = (
+                        en,
+                        Base,
+                    );
+                    mainGroup = ABCDEF1234567890ABCDEF18 /* Root */;
+                    productRefGroup = ABCDEF1234567890ABCDEF20 /* Products */;
+                    projectDirPath = "";
+                    projectRoot = "";
+                    targets = (
+                        ABCDEF1234567890ABCDEF21 /* IPTVApp */,
+                    );
+                };
+                /* End PBXProject section */
+                
+                /* Begin PBXResourcesBuildPhase section */
+                ABCDEF1234567890ABCDEF25 /* Resources */ = {
+                    isa = PBXResourcesBuildPhase;
+                    buildActionMask = 2147483647;
+                    files = (
+                    );
+                    runOnlyForDeploymentPostprocessing = 0;
+                };
+                /* End PBXResourcesBuildPhase section */
+                
+                /* Begin PBXSourcesBuildPhase section */
+                ABCDEF1234567890ABCDEF23 /* Sources */ = {
+                    isa = PBXSourcesBuildPhase;
+                    buildActionMask = 2147483647;
+                    files = (
+                        ABCDEF1234567890ABCDEF1234567890ABCDEF12 /* Main.swift in Sources */,
+                        ABCDEF1234567890ABCDEF1234567890ABCDEF14 /* ChannelListController.swift in Sources */,
+                    );
+                    runOnlyForDeploymentPostprocessing = 0;
+                };
+                /* End PBXSourcesBuildPhase section */
+                
+                /* Begin XCBuildConfiguration section */
+                ABCDEF1234567890ABCDEF28 /* Debug */ = {
+                    isa = XCBuildConfiguration;
+                    buildSettings = {
+                        ALWAYS_SEARCH_USER_PATHS = NO;
+                        CLANG_ANALYZER_NONNULL = YES;
+                        CLANG_CXX_LANGUAGE_STANDARD = "gnu++14";
+                        CLANG_ENABLE_MODULES = YES;
+                        CLANG_ENABLE_OBJC_ARC = YES;
+                        CLANG_WARN_BLOCK_CAPTURE_AUTORELEASING = YES;
+                        CLANG_WARN_BOOL_CONVERSION = YES;
+                        CLANG_WARN_COMMA = YES;
+                        CLANG_WARN_CONSTANT_CONVERSION = YES;
+                        CLANG_WARN_DEPRECATED_OBJC_IMPLEMENTATIONS = YES;
+                        CLANG_WARN_DIRECT_OBJC_ISA_USAGE = YES_ERROR;
+                        CLANG_WARN_DOCUMENTATION_COMMENTS = YES;
+                        CLANG_WARN_EMPTY_BODY = YES;
+                        CLANG_WARN_ENUM_CONVERSION = YES;
+                        CLANG_WARN_INFINITE_RECURSION = YES;
+                        CLANG_WARN_INT_CONVERSION = YES;
+                        CLANG_WARN_NON_LITERAL_NULL_CONVERSION = YES;
+                        CLANG_WARN_OBJC_IMPLICIT_RETAIN_SELF = YES;
+                        CLANG_WARN_OBJC_ROOT_CLASS = YES_ERROR;
+                        CLANG_WARN_QUOTED_INCLUDE_IN_FRAMEWORK_HEADER = YES;
+                        CLANG_WARN_RANGE_LOOP_ANALYSIS = YES;
+                        CLANG_WARN_STRICT_PROTOTYPES = YES;
+                        CLANG_WARN_SUSPICIOUS_MOVE = YES;
+                        CLANG_WARN_UNGUARDED_AVAILABILITY = YES_AZURE_NEWER_GCC_4_3;
+                        CLANG_WARN_UNREACHABLE_CODE = YES;
+                        CLANG_WARN__DUPLICATE_METHOD_MATCH = YES;
+                        COPY_PHASE_STRIP = NO;
+                        DEBUG_INFORMATION_FORMAT = dwarf;
+                        ENABLE_STRICT_OBJC_MSGSEND = YES;
+                        ENABLE_TESTABILITY = YES;
+                        GCC_DYNAMIC_NO_PIC = NO;
+                        GCC_FAST_FUNCTION_BLOCKS = "";
+                        GCC_INLINES_ARE_PRIVATE_EXTERN = YES;
+                        GCC_OPTIMIZATION_LEVEL = 0;
+                        GCC_PREPROCESSOR_DEFINITIONS = (
+                            "DEBUG=1",
+                            "$(inherited)",
+                        );
+                        GCC_SYMBOLS_PRIVATE_EXTERN = NO;
+                        GCC_TREAT_WARNINGS_AS_ERRORS = YES;
+                        GCC_USE_INDIRECT_FUNCTION_CALLS = YES;
+                        IPHONEOS_DEPLOYMENT_TARGET = 8.0;
+                        MTL_ENABLE_DEBUG_INFO = YES;
+                        ONLY_ACTIVE_ARCH = YES;
+                        SDKROOT = iphoneos;
+                        TARGETED_DEVICE_FAMILY = "1,2";
+                    };
+                    name = Debug;
+                };
+                ABCDEF1234567890ABCDEF29 /* Release */ = {
+                    isa = XCBuildConfiguration;
+                    buildSettings = {
+                        ALWAYS_SEARCH_USER_PATHS = NO;
+                        CLANG_ANALYZER_NONNULL = YES;
+                        CLANG_CXX_LANGUAGE_STANDARD = "gnu++14";
+                        CLANG_ENABLE_MODULES = YES;
+                        CLANG_ENABLE_OBJC_ARC = YES;
+                        CLANG_WARN_BLOCK_CAPTURE_AUTORELEASING = YES;
+                        CLANG_WARN_BOOL_CONVERSION = YES;
+                        CLANG_WARN_COMMA = YES;
+                        CLANG_WARN_CONSTANT_CONVERSION = YES;
+                        CLANG_WARN_DEPRECATED_OBJC_IMPLEMENTATIONS = YES;
+                        CLANG_WARN_DIRECT_OBJC_ISA_USAGE = YES_ERROR;
+                        CLANG_WARN_DOCUMENTATION_COMMENTS = YES;
+                        CLANG_WARN_EMPTY_BODY = YES;
+                        CLANG_WARN_ENUM_CONVERSION = YES;
+                        CLANG_WARN_INFINITE_RECURSION = YES;
+                        CLANG_WARN_INT_CONVERSION = YES;
+                        CLANG_WARN_NON_LITERAL_NULL_CONVERSION = YES;
+                        CLANG_WARN_OBJC_IMPLICIT_RETAIN_SELF = YES;
+                        CLANG_WARN_OBJC_ROOT_CLASS = YES_ERROR;
+                        CLANG_WARN_QUOTED_INCLUDE_IN_FRAMEWORK_HEADER = YES;
+                        CLANG_WARN_RANGE_LOOP_ANALYSIS = YES;
+                        CLANG_WARN_STRICT_PROTOTYPES = YES;
+                        CLANG_WARN_SUSPICIOUS_MOVE = YES;
+                        CLANG_WARN_UNGUARDED_AVAILABILITY = YES_AZURE_NEWER_GCC_4_3;
+                        CLANG_WARN_UNREACHABLE_CODE = YES;
+                        CLANG_WARN__DUPLICATE_METHOD_MATCH = YES;
+                        COPY_PHASE_STRIP = NO;
+                        DEBUG_INFORMATION_FORMAT = "dwarf-with-dsym";
+                        ENABLE_NS_ASSERTIONS = NO;
+                        ENABLE_STRICT_OBJC_MSGSEND = YES;
+                        GCC_PREPROCESSOR_DEFINITIONS = (
+                            "$(inherited)",
+                        );
+                        GCC_SYMBOLS_PRIVATE_EXTERN = NO;
+                        GCC_TREAT_WARNINGS_AS_ERRORS = YES;
+                        GCC_USE_INDIRECT_FUNCTION_CALLS = YES;
+                        IPHONEOS_DEPLOYMENT_TARGET = 8.0;
+                        MTNTO_ENABLE_DEBUG_INFO = NO;
+                        STRIP_INSTALLED_PRODUCT = YES;
+                        VALIDATE_PRODUCT = YES;
+                    };
+                    name = Release;
+                };
+                ABCDEF1234567890ABCDEF30 /* Debug */ = {
+                    isa = XCBuildConfiguration;
+                    buildSettings = {
+                        ASSETCATALOG_COMPILER_APPICON_NAME = AppIcon;
+                        ASSETCATALOG_COMPILER_GLOBAL_ACCENT_COLOR_NAME = AccentColor;
+                        CODE_SIGN_STYLE = Automatic;
+                        CURRENT_PROJECT_VERSION = 1;
+                        DEVELOPMENT_TEAM = "";
+                        GENERATE_INFOPLIST_FILE = YES;
+                        INFOPLIST_FILE = IPTVApp/Info.plist;
+                        INFOPLIST_KEY_CFBundleDisplayName = "IPTV Player";
+                        INFOPLIST_KEY_LSApplicationCategoryType = "";
+                        INFOPLIST_KEY_UIApplicationSceneManifest_Generation = YES;
+                        INFOPLIST_KEY_UIApplicationSupportsIndirectInputEvents = YES;
+                        INFOPLIST_KEY_UILaunchScreen_Generation = YES;
+                        INFOPLIST_KEY_UIApplicationSupportsDirectImageInjection = YES;
+                        INFOPLIST_KEY_UIApplicationSupportsRetroactiveHovering = YES;
+                        INFOPLIST_KEY_UIApplicationSupportsSwitchToForegroundOnHomeButtonPress = YES;
+                        LD_RUNPATH_SEARCH_PATHS = "$(inherited) @executable_path/Frameworks";
+                        PRODUCT_BUNDLE_IDENTIFIER = com.user.IPTVApp;
+                        PRODUCT_NAME = "$(TARGET_NAME)";
+                        SWIFT_EMIT_LOC_STRINGS = YES;
+                        SWIFT_VERSION = 4.2;
+                        TARGETED_DEVICE_FAMILY = "1,2";
+                        VERSIONING_SYSTEM = "apple-generic";
+                    };
+                    name = Debug;
+                };
+                ABCDEF1234567890ABCDEF31 /* Release */ = {
+                    isa = XCBuildConfiguration;
+                    buildSettings = {
+                        ASSETCATALOG_COMPILER_APPICON_NAME = AppIcon;
+                        ASSETCATALOG_COMPILER_GLOBAL_ACCENT_COLOR_NAME = AccentColor;
+                        CODE_SIGN_STYLE = Automatic;
+                        CURRENT_PROJECT_VERSION = 1;
+                        DEVELOPMENT_TEAM = "";
+                        GENERATE_INFOPLIST_FILE = YES;
+                        INFOPLIST_FILE = IPTVApp/Info.plist;
+                        INFOPLIST_KEY_CFBundleDisplayName = "IPTV Player";
+                        INFOPLIST_KEY_LSApplicationCategoryType = "";
+                        INFOPLIST_KEY_UIApplicationSceneManifest_Generation = YES;
+                        INFOPLIST_KEY_UIApplicationSupportsIndirectInputEvents = YES;
+                        INFOPLIST_KEY_UILaunchScreen_Generation = YES;
+                        INFOPLIST_KEY_UIApplicationSupportsDirectImageInjection = YES;
+                        INFOPLIST_KEY_UIApplicationSupportsRetroactiveHovering = YES;
+                        INFOPLIST_KEY_UIApplicationSupportsSwitchToForegroundOnHomeButtonPress = YES;
+                        LD_RUNPATH_SEARCH_PATHS = "$(inherited) @executable_path/Frameworks";
+                        PRODUCT_BUNDLE_IDENTIFIER = com.user.IPTVApp;
+                        PRODUCT_NAME = "$(TARGET_NAME)";
+                        SWIFT_EMIT_LOC_STRINGS = YES;
+                        SWIFT_VERSION = 4.2;
+                        TARGETED_DEVICE_FAMILY = "1,2";
+                        VERSIONING_SYSTEM = "apple-generic";
+                    };
+                    name = Release;
+                };
+                /* End XCBuildConfiguration section */
+                
+                /* Begin XCConfigurationList section */
+                ABCDEF1234567890ABCDEF22 /* Build configuration list for PBXNativeTarget "IPTVApp" */ = {
+                    isa = XCConfigurationList;
+                    buildConfigurations = (
+                        ABCDEF1234567890ABCDEF30 /* Debug */,
+                        ABCDEF1234567890ABCDEF31 /* Release */,
+                    );
+                    defaultConfigurationIsVisible = 0;
+                    defaultConfigurationName = Release;
+                };
+                ABCDEF1234567890ABCDEF27 /* Build configuration list for PBXProject "IPTVApp" */ = {
+                    isa = XCConfigurationList;
+                    buildConfigurations = (
+                        ABCDEF1234567890ABCDEF28 /* Debug */,
+                        ABCDEF1234567890ABCDEF29 /* Release */,
+                    );
+                    defaultConfigurationIsVisible = 0;
+                    defaultConfigurationName = Release;
+                };
+                /* End XCConfigurationList section */
+            };
+            rootObject = ABCDEF1234567890ABCDEF26 /* Project object */;
+        }
+        EOF
+
+    - name: Build and Archive
+      run: |
+        cd IPTVApp
+        xcodebuild clean build -project ../IPTVApp.xcodeproj -scheme IPTVApp -configuration Debug -sdk iphoneos ONLY_ACTIVE_ARCH=NO | xcpretty || exit 1
+        
+        # Find the .app file
+        APP_PATH=$(find .. -name "*.app" -type d | head -n 1)
+        echo "Found app at: $APP_PATH"
+        
+        # Create IPA
+        mkdir -p Payload
+        cp -r "$APP_PATH" Payload/
+        zip -qr ../IPTVApp.ipa Payload/
+        rm -rf Payload
+
+    - name: Upload IPA
+      uses: actions/upload-artifact@v3
+      with:
+        name: IPTVApp-ipa
+        path: IPTVApp.ipa
